@@ -1,67 +1,53 @@
-# Sigorta Maliyeti Tahmin Uygulaması
+## 🔍 Proje Özeti
 
-Bu proje, müşterilerin sigorta maliyetlerini tahmin eden bir makine öğrenmesi uygulamasıdır. Uygulama, müşterinin yaş, cinsiyet, BMI, çocuk sayısı, sigara kullanımı ve bölge bilgilerine göre sigorta maliyetini tahmin eder.
+Bu proje kapsamında, "Medical Cost Personal Dataset" veri seti kullanılarak bireylerin kişisel sağlık bilgilerinden yola çıkarak sigorta maliyetlerini (charges) tahmin eden bir regresyon modeli geliştirildi. Çalışma gözetimli öğrenme (supervised learning) temellidir.
 
-## Özellikler
+---
 
-- Kullanıcı dostu web arayüzü
-- Gerçek zamanlı tahmin
-- Tahmin sonuçlarının değerlendirmesi
-- Özellik önemliliklerinin görselleştirilmesi
+## ⚙️ Kullanılan Modeller ve Karşılaştırma
 
-## Kurulum
+Üç farklı model eğitilerek performansları karşılaştırılmıştır:
 
-1. Projeyi klonlayın:
-```bash
-git clone https://github.com/KULLANICI_ADINIZ/sigorta-tahmin.git
-cd sigorta-tahmin
-```
+| Model              | MAE   | RMSE  | R² Score |
+|-------------------|--------|--------|----------|
+| Linear Regression | 4181   | 5796   | 0.784    |
+| Random Forest     | **2545** | **4569** | **0.866** ✅ |
+| XGBoost           | 2550   | 4599   | 0.864    |
 
-2. Gerekli paketleri yükleyin:
-```bash
-pip install -r requirements.txt
-```
+**Random Forest Regressor**, hem hata metriklerinde daha düşük değerler hem de daha yüksek R² skoru ile en başarılı model olmuştur.
 
-3. Modeli eğitin:
-```bash
-python train.py
-```
+---
 
-4. Uygulamayı başlatın:
-```bash
-streamlit run app.py
-```
+## 📈 Model Seçimi Gerekçesi
 
-## Kullanım
+Random Forest, veri setindeki doğrusal olmayan ilişkileri ve değişkenler arası karmaşık etkileşimleri başarılı bir şekilde öğrenebildiği için en iyi sonucu vermiştir. Ayrıca aşırı öğrenmeye (overfitting) karşı dayanıklıdır ve yorumlanabilirlik açısından güçlüdür.
 
-1. Web tarayıcınızda `http://localhost:8501` adresine gidin
-2. Formu doldurun:
-   - Yaş
-   - Cinsiyet
-   - BMI (Vücut Kitle İndeksi)
-   - Çocuk Sayısı
-   - Sigara Kullanımı
-   - Bölge
-3. "Predict Insurance Cost" butonuna tıklayın
-4. Tahmin sonucunu ve değerlendirmeyi görüntüleyin
+---
 
-## Proje Yapısı
+## 🧠 Özellik Önem Analizi
 
-- `app.py`: Streamlit web uygulaması
-- `train.py`: Model eğitimi
-- `utils.py`: Yardımcı fonksiyonlar
-- `predict.py`: Tahmin fonksiyonları
-- `insurance.csv`: Örnek veri seti
-- `requirements.txt`: Gerekli Python paketleri
+Modelin eğitimi sonrasında, sigorta maliyetini en çok etkileyen değişkenler aşağıdaki şekilde sıralanmıştır:
 
-## Katkıda Bulunma
+1. **smoker** (sigara içme durumu)
+2. **age** (yaş)
+3. **bmi** (vücut kitle indeksi)
+4. **children** (çocuk sayısı)
+5. **sex**, **region** gibi diğer faktörler
 
-1. Bu depoyu fork edin
-2. Yeni bir branch oluşturun (`git checkout -b feature/yeniOzellik`)
-3. Değişikliklerinizi commit edin (`git commit -am 'Yeni özellik: Açıklama'`)
-4. Branch'inizi push edin (`git push origin feature/yeniOzellik`)
-5. Bir Pull Request oluşturun
+Özellikle **sigara kullanımı**, sigorta maliyeti üzerinde çok güçlü bir etkiye sahiptir.
 
-## Lisans
+---
 
-Bu proje MIT lisansı altında lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakın. 
+## 🚀 Gelecekte Neler Yapılabilir?
+
+- Model daha büyük veri kümeleri ile yeniden eğitilebilir.
+- `GridSearchCV` ile hiperparametre optimizasyonu yapılabilir.
+- Model `.pkl` dosyası olarak kaydedilip Flask/FastAPI ile web arayüzüne entegre edilebilir.
+- Aynı veri seti üzerinde `Clustering` (kümeleme) gibi gözetimsiz öğrenme teknikleri de uygulanarak müşteri segmentasyonu yapılabilir.
+
+---
+
+## 📌 Bağlantılar
+
+- 📂 Kaggle Notebook Linki: (https://www.kaggle.com/code/rabiacelik/akbankbootcamp/edit)
+- 🧠 https://www.kaggle.com/datasets/mirichoi0218/insurance
